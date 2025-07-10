@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useToast } from "@/components/ui/use-toast"
 import { loadApiSettings, saveApiSettings } from "@/lib/storage"
+import { ExternalLink } from "lucide-react"
 
 interface ApiSettingsModalProps {
   open: boolean
@@ -107,6 +108,23 @@ export function ApiSettingsModal({ open, onClose, onSave }: ApiSettingsModalProp
     }
   }
 
+  const getApiKeyUrl = (provider: string) => {
+    switch (provider) {
+      case "openai":
+        return "https://platform.openai.com/api-keys"
+      case "gemini":
+        return "https://aistudio.google.com/app/apikey"
+      case "anthropic":
+        return "https://console.anthropic.com/settings/keys"
+      default:
+        return "https://aistudio.google.com/app/apikey"
+    }
+  }
+
+  const handleGetApiKey = () => {
+    window.open(getApiKeyUrl(provider), "_blank")
+  }
+
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
@@ -133,7 +151,19 @@ export function ApiSettingsModal({ open, onClose, onSave }: ApiSettingsModalProp
           </div>
 
           <div>
-            <Label htmlFor="apiKey">API Key</Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="apiKey">API Key</Label>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={handleGetApiKey}
+                className="h-7 px-2 text-xs bg-transparent"
+              >
+                <ExternalLink className="w-3 h-3 mr-1" />
+                Get API Key
+              </Button>
+            </div>
             <Input
               id="apiKey"
               type="password"
