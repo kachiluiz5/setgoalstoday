@@ -4,21 +4,37 @@ import { useState, useEffect } from "react"
 import { DashboardHeader } from "@/components/dashboard-header"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { useToast } from "@/components/ui/use-toast"
-import { Check, AlertCircle } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
+import { Check, AlertCircle, Settings } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { NotificationSettings } from "@/components/notification-settings"
 import { ApiSettingsModal } from "@/components/api-settings-modal"
-import { loadApiSettings } from "@/lib/storage"
+import { loadApiSettings, type ApiSettings } from "@/lib/storage"
 
 export default function SettingsPage() {
   const [showApiSettings, setShowApiSettings] = useState(false)
-  const [apiSettings, setApiSettings] = useState<any>(null)
+  const [apiSettings, setApiSettings] = useState<ApiSettings | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
   const { toast } = useToast()
 
   useEffect(() => {
-    const savedSettings = loadApiSettings()
-    setApiSettings(savedSettings)
+    const loadSettings = () => {
+      try {
+        const savedSettings = loadApiSettings()
+        setApiSettings(savedSettings)
+
+        // Auto-open modal if no API settings are configured
+        if (!savedSettings) {
+          setShowApiSettings(true)
+        }
+      } catch (error) {
+        console.error("Error loading API settings:", error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    loadSettings()
   }, [])
 
   const handleClearLocalData = () => {
@@ -34,32 +50,51 @@ export default function SettingsPage() {
     }
   }
 
-  const getProviderName = (settings: any) => {
-    if (settings?.provider) {
-      switch (settings.provider) {
-        case "gemini":
-          return "Google Gemini"
-        case "openai":
-          return "OpenAI"
-        case "anthropic":
-          return "Anthropic"
-        default:
-          return settings.provider
-      }
+  const getProviderName = (settings: ApiSettings) => {
+    switch (settings.provider) {
+      case "gemini":
+        return "Google Gemini"
+      case "openai":
+        return "OpenAI"
+      case "anthropic":
+        return "Anthropic"
+      default:
+        return settings.provider
     }
-    if (settings?.geminiKey) return "Google Gemini"
-    if (settings?.apiKey) return "OpenAI"
-    return "Unknown"
   }
 
-  const getModelName = (settings: any) => {
-    if (settings?.model) return settings.model
-    if (settings?.geminiKey) return "gemini-1.5-flash"
-    if (settings?.apiKey) return "gpt-3.5-turbo"
-    return "Default"
+  const getModelName = (settings: ApiSettings) => {
+    return settings.model || "Default"
   }
 
-  const hasApiKey = apiSettings && (apiSettings.apiKey || apiSettings.geminiKey)
+  const handleApiSettingsSaved = (settings: ApiSettings) => {
+    setApiSettings(settings)
+    toast({
+      title: "API Settings Saved",
+      description: "Your AI provider has been configured successfully.",
+    })
+  }
+
+  const handleOpenApiSettings = () => {
+    setShowApiSettings(true)
+  }
+
+  const handleCloseApiSettings = () => {
+    setShowApiSettings(false)
+  }
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <DashboardHeader />
+        <main className="container py-6 max-w-5xl">
+          <div className="flex items-center justify-center py-12">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+          </div>
+        </main>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -77,13 +112,16 @@ export default function SettingsPage() {
           {/* AI API Settings */}
           <Card>
             <CardHeader>
-              <CardTitle>AI API Settings</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <Settings className="h-5 w-5" />
+                AI API Settings
+              </CardTitle>
               <CardDescription>
                 Configure your AI provider to generate personalized goal roadmaps and daily tasks
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              {hasApiKey ? (
+              {apiSettings ? (
                 <div className="space-y-4">
                   <Alert className="bg-green-500/10 border-green-500/30">
                     <Check className="h-4 w-4 text-green-500" />
@@ -92,7 +130,7 @@ export default function SettingsPage() {
                       Provider: {getProviderName(apiSettings)} | Model: {getModelName(apiSettings)}
                     </AlertDescription>
                   </Alert>
-                  <Button onClick={() => setShowApiSettings(true)} variant="outline">
+                  <Button onClick={handleOpenApiSettings} variant="outline">
                     Update API Settings
                   </Button>
                 </div>
@@ -106,7 +144,7 @@ export default function SettingsPage() {
                       goals.
                     </AlertDescription>
                   </Alert>
-                  <Button onClick={() => setShowApiSettings(true)}>Configure API Settings</Button>
+                  <Button onClick={handleOpenApiSettings}>Configure API Settings</Button>
                 </div>
               )}
             </CardContent>
@@ -136,11 +174,8 @@ export default function SettingsPage() {
             </CardContent>
           </Card>
         </div>
-        <ApiSettingsModal
-          open={showApiSettings}
-          onClose={() => setShowApiSettings(false)}
-          onSave={(settings) => setApiSettings(settings)}
-        />
+
+        <ApiSettingsModal open={showApiSettings} onClose={handleCloseApiSettings} onSave={handleApiSettingsSaved} />
       </main>
     </div>
   )

@@ -60,8 +60,7 @@ representative at an online or offline event.
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement at
-conduct@setgoalstoday.vercel.app.
-
+[kachiluiz@gmail.com](mailto:kachiluiz@gmail.com).
 All complaints will be reviewed and investigated promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the
@@ -107,7 +106,7 @@ Violating these terms may lead to a permanent ban.
 ### 4. Permanent Ban
 
 **Community Impact**: Demonstrating a pattern of violation of community
-standards, including sustained inappropriate behavior, harassment of an
+standards, including sustained inappropriate behavior,  harassment of an
 individual, or aggression toward or disparagement of classes of individuals.
 
 **Consequence**: A permanent ban from any sort of public interaction within
@@ -127,16 +126,3 @@ enforcement ladder](https://github.com/mozilla/diversity).
 For answers to common questions about this code of conduct, see the FAQ at
 https://www.contributor-covenant.org/faq. Translations are available at
 https://www.contributor-covenant.org/translations.
-
-## Contact
-
-If you have questions about this Code of Conduct, please contact us at:
-- Email: conduct@setgoalstoday.vercel.app
-- GitHub Issues: [Open an issue](https://github.com/kachiluiz5/setgoalstoday/issues)
-
-## Changes
-
-This Code of Conduct may be updated from time to time. We will notify the community
-of any significant changes and provide a reasonable notice period before they take effect.
-
-Last updated: January 2025

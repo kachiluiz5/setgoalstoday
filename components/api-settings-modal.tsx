@@ -8,22 +8,25 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ExternalLink } from "lucide-react"
 import { toast } from "sonner"
+import { saveApiSettings, type ApiSettings } from "@/lib/storage"
 
 interface ApiSettingsModalProps {
-  isOpen: boolean
+  open: boolean
   onClose: () => void
+  onSave?: (settings: ApiSettings) => void
 }
 
-export function ApiSettingsModal({ isOpen, onClose }: ApiSettingsModalProps) {
+export function ApiSettingsModal({ open, onClose, onSave }: ApiSettingsModalProps) {
   const [provider, setProvider] = useState<"openai" | "gemini" | "anthropic">("gemini")
   const [apiKey, setApiKey] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    if (isOpen) {
-      // Load existing settings
-      const settings = localStorage.getItem("api-settings")
-      if (settings) {
-        try {
+    if (open) {
+      // Load existing settings when modal opens
+      try {
+        const settings = localStorage.getItem("apiSettings") || localStorage.getItem("api-settings")
+        if (settings) {
           const parsed = JSON.parse(settings)
           if (parsed.provider) {
             setProvider(parsed.provider)
@@ -36,27 +39,50 @@ export function ApiSettingsModal({ isOpen, onClose }: ApiSettingsModalProps) {
             setProvider("gemini")
             setApiKey(parsed.geminiKey)
           }
-        } catch (error) {
-          console.error("Error parsing API settings:", error)
         }
+      } catch (error) {
+        console.error("Error loading API settings:", error)
       }
+    } else {
+      // Reset form when modal closes
+      setProvider("gemini")
+      setApiKey("")
     }
-  }, [isOpen])
+  }, [open])
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!apiKey.trim()) {
       toast.error("Please enter an API key")
       return
     }
 
-    const settings = {
-      provider,
-      apiKey: apiKey.trim(),
-    }
+    setIsLoading(true)
 
-    localStorage.setItem("api-settings", JSON.stringify(settings))
-    toast.success("API settings saved successfully!")
-    onClose()
+    try {
+      const settings: ApiSettings = {
+        provider,
+        apiKey: apiKey.trim(),
+        model:
+          provider === "gemini" ? "gemini-1.5-flash" : provider === "openai" ? "gpt-4" : "claude-3-sonnet-20240229",
+      }
+
+      // Save to both possible keys for compatibility
+      saveApiSettings(settings)
+      localStorage.setItem("apiSettings", JSON.stringify(settings))
+
+      toast.success("API settings saved successfully!")
+
+      if (onSave) {
+        onSave(settings)
+      }
+
+      onClose()
+    } catch (error) {
+      console.error("Error saving API settings:", error)
+      toast.error("Failed to save API settings")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const getApiKeyUrl = () => {
@@ -77,7 +103,7 @@ export function ApiSettingsModal({ isOpen, onClose }: ApiSettingsModalProps) {
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Configure AI API</DialogTitle>
@@ -117,14 +143,17 @@ export function ApiSettingsModal({ isOpen, onClose }: ApiSettingsModalProps) {
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
               placeholder="Enter your API key"
+              disabled={isLoading}
             />
           </div>
 
           <div className="flex justify-end space-x-2">
-            <Button variant="outline" onClick={onClose}>
+            <Button variant="outline" onClick={onClose} disabled={isLoading}>
               Cancel
             </Button>
-            <Button onClick={handleSave}>Save Settings</Button>
+            <Button onClick={handleSave} disabled={isLoading}>
+              {isLoading ? "Saving..." : "Save Settings"}
+            </Button>
           </div>
         </div>
       </DialogContent>

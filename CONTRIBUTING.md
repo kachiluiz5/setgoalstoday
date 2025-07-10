@@ -1,188 +1,249 @@
-# Contributing to SetGoalsToday
+# Contributing to Daily Goal Tracker
 
-First off, thank you for considering contributing to SetGoalsToday! It's people like you that make SetGoalsToday such a great tool for goal achievement.
+Thank you for your interest in contributing to Daily Goal Tracker! We welcome contributions from developers of all skill levels.
 
-## Code of Conduct
+## 🚀 Getting Started
 
-This project and everyone participating in it is governed by the [SetGoalsToday Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [conduct@setgoalstoday.vercel.app](mailto:conduct@setgoalstoday.vercel.app).
+### Prerequisites
 
-## How Can I Contribute?
+- Node.js 18 or higher
+- npm or yarn package manager
+- Git
 
-### Reporting Bugs
+### Setting Up Your Development Environment
 
-This section guides you through submitting a bug report for SetGoalsToday. Following these guidelines helps maintainers and the community understand your report, reproduce the behavior, and find related reports.
+1. **Fork the repository**
+   \`\`\`bash
+   git clone https://github.com/yourusername/daily-goal-tracker.git
+   cd daily-goal-tracker
+   \`\`\`
 
-**Before Submitting A Bug Report**
+2. **Install dependencies**
+   \`\`\`bash
+   npm install
+   \`\`\`
 
-* Check the [issues](https://github.com/kachiluiz5/setgoalstoday/issues) to see if the problem has already been reported.
-* Check if you can reproduce the problem in the latest version.
-* Collect information about the bug:
-  * Stack trace (if applicable)
-  * OS, Platform and Version
-  * Browser and version
-  * Steps to reproduce
+3. **Start the development server**
+   \`\`\`bash
+   npm run dev
+   \`\`\`
 
-**How Do I Submit A (Good) Bug Report?**
+4. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000)
 
-Bugs are tracked as [GitHub issues](https://github.com/kachiluiz5/setgoalstoday/issues). Create an issue and provide the following information:
+## 🛠️ Development Guidelines
 
-* **Use a clear and descriptive title** for the issue to identify the problem.
-* **Describe the exact steps which reproduce the problem** in as many details as possible.
-* **Provide specific examples to demonstrate the steps**.
-* **Describe the behavior you observed after following the steps** and point out what exactly is the problem with that behavior.
-* **Explain which behavior you expected to see instead and why.**
-* **Include screenshots and animated GIFs** which show you following the described steps and clearly demonstrate the problem.
+### Code Style
 
-### Suggesting Enhancements
+We use ESLint and Prettier to maintain consistent code style:
 
-This section guides you through submitting an enhancement suggestion for SetGoalsToday, including completely new features and minor improvements to existing functionality.
+\`\`\`bash
+# Check for linting errors
+npm run lint
 
-**Before Submitting An Enhancement Suggestion**
+# Fix auto-fixable linting errors
+npm run lint:fix
 
-* Check if there's already a package which provides that enhancement.
-* Determine which repository the enhancement should be suggested in.
-* Perform a cursory search to see if the enhancement has already been suggested.
+# Format code with Prettier
+npm run format
+\`\`\`
 
-**How Do I Submit A (Good) Enhancement Suggestion?**
+### TypeScript
 
-Enhancement suggestions are tracked as [GitHub issues](https://github.com/kachiluiz5/setgoalstoday/issues). Create an issue and provide the following information:
+This project uses TypeScript for type safety. Please ensure:
 
-* **Use a clear and descriptive title** for the issue to identify the suggestion.
-* **Provide a step-by-step description of the suggested enhancement** in as many details as possible.
-* **Provide specific examples to demonstrate the steps**.
-* **Describe the current behavior** and **explain which behavior you expected to see instead** and why.
-* **Include screenshots and animated GIFs** which help you demonstrate the steps or point out the part of SetGoalsToday which the suggestion is related to.
-* **Explain why this enhancement would be useful** to most SetGoalsToday users.
+- All new code includes proper type annotations
+- No `any` types unless absolutely necessary
+- Interface definitions are placed in the appropriate `types/` files
 
-### Your First Code Contribution
+### Component Guidelines
 
-Unsure where to begin contributing to SetGoalsToday? You can start by looking through these `beginner` and `help-wanted` issues:
+- Use functional components with hooks
+- Follow the existing component structure in `components/`
+- Use shadcn/ui components when possible
+- Ensure components are responsive and accessible
 
-* [Beginner issues](https://github.com/kachiluiz5/setgoalstoday/labels/beginner) - issues which should only require a few lines of code, and a test or two.
-* [Help wanted issues](https://github.com/kachiluiz5/setgoalstoday/labels/help%20wanted) - issues which should be a bit more involved than `beginner` issues.
+### Styling
 
-### Pull Requests
+- Use Tailwind CSS for styling
+- Follow the existing design system
+- Ensure dark mode compatibility
+- Test on mobile devices
 
-The process described here has several goals:
+## 📝 Making Changes
 
-- Maintain SetGoalsToday's quality
-- Fix problems that are important to users
-- Engage the community in working toward the best possible SetGoalsToday
-- Enable a sustainable system for SetGoalsToday's maintainers to review contributions
+### Branch Naming
 
-Please follow these steps to have your contribution considered by the maintainers:
+Use descriptive branch names:
+- `feature/add-goal-templates`
+- `fix/mobile-navigation-bug`
+- `docs/update-readme`
 
-1. Follow all instructions in [the template](PULL_REQUEST_TEMPLATE.md)
-2. Follow the [styleguides](#styleguides)
-3. After you submit your pull request, verify that all [status checks](https://help.github.com/articles/about-status-checks/) are passing
+### Commit Messages
 
-## Styleguides
+Follow conventional commit format:
+- `feat: add goal template functionality`
+- `fix: resolve mobile navigation issue`
+- `docs: update installation instructions`
+- `style: improve button hover states`
 
-### Git Commit Messages
+### Pull Request Process
 
-* Use the present tense ("Add feature" not "Added feature")
-* Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
-* Limit the first line to 72 characters or less
-* Reference issues and pull requests liberally after the first line
-* Consider starting the commit message with an applicable emoji:
-    * 🎨 `:art:` when improving the format/structure of the code
-    * 🐎 `:racehorse:` when improving performance
-    * 🚱 `:non-potable_water:` when plugging memory leaks
-    * 📝 `:memo:` when writing docs
-    * 🐧 `:penguin:` when fixing something on Linux
-    * 🍎 `:apple:` when fixing something on macOS
-    * 🏁 `:checkered_flag:` when fixing something on Windows
-    * 🐛 `:bug:` when fixing a bug
-    * 🔥 `:fire:` when removing code or files
-    * 💚 `:green_heart:` when fixing the CI build
-    * ✅ `:white_check_mark:` when adding tests
-    * 🔒 `:lock:` when dealing with security
-    * ⬆️ `:arrow_up:` when upgrading dependencies
-    * ⬇️ `:arrow_down:` when downgrading dependencies
-    * 👕 `:shirt:` when removing linter warnings
+1. **Create a feature branch**
+   \`\`\`bash
+   git checkout -b feature/your-feature-name
+   \`\`\`
 
-### TypeScript Styleguide
+2. **Make your changes**
+   - Write clean, well-documented code
+   - Add tests if applicable
+   - Update documentation as needed
 
-All TypeScript code is linted with ESLint.
+3. **Test your changes**
+   \`\`\`bash
+   npm run build
+   npm run lint
+   \`\`\`
 
-* Prefer the object spread operator (`{...anotherObj}`) to `Object.assign()`
-* Inline `export`s with expressions whenever possible
-  \`\`\`ts
-  // Use this:
-  export default class ClassName {
+4. **Commit your changes**
+   \`\`\`bash
+   git add .
+   git commit -m "feat: add your feature description"
+   \`\`\`
 
-  }
+5. **Push to your fork**
+   \`\`\`bash
+   git push origin feature/your-feature-name
+   \`\`\`
 
-  // Instead of:
-  class ClassName {
+6. **Create a Pull Request**
+   - Use a clear, descriptive title
+   - Provide a detailed description of changes
+   - Link any related issues
+   - Add screenshots for UI changes
 
-  }
-  export default ClassName
-  \`\`\`
-* Place requires in the following order:
-    * Built in Node Modules (such as `path`)
-    * Built in Atom and Electron Modules (such as `atom`, `remote`)
-    * Local Modules (using relative paths)
-* Place class properties in the following order:
-    * Class methods and properties (methods starting with `static`)
-    * Instance methods and properties
+## 🐛 Reporting Issues
 
-### Documentation Styleguide
+### Bug Reports
 
-* Use [Markdown](https://daringfireball.net/projects/markdown/).
-* Reference methods and classes in markdown with the custom `{}` notation:
-    * Reference classes with `{ClassName}`
-    * Reference instance methods with `{ClassName::methodName}`
-    * Reference class methods with `{ClassName.methodName}`
+When reporting bugs, please include:
 
-## Additional Notes
+- **Description**: Clear description of the issue
+- **Steps to Reproduce**: Detailed steps to reproduce the bug
+- **Expected Behavior**: What should happen
+- **Actual Behavior**: What actually happens
+- **Environment**: Browser, OS, device type
+- **Screenshots**: If applicable
 
-### Issue and Pull Request Labels
+### Feature Requests
 
-This section lists the labels we use to help us track and manage issues and pull requests.
+For feature requests, please include:
 
-[GitHub search](https://help.github.com/articles/searching-issues/) makes it easy to use labels for finding groups of issues or pull requests you're interested in.
+- **Problem**: What problem does this solve?
+- **Solution**: Describe your proposed solution
+- **Alternatives**: Any alternative solutions considered
+- **Additional Context**: Screenshots, mockups, etc.
 
-#### Type of Issue and Issue State
+## 🧪 Testing
 
-* `enhancement` - Feature requests.
-* `bug` - Confirmed bugs or reports that are very likely to be bugs.
-* `question` - Questions more than bug reports or feature requests (e.g. how do I do X).
-* `feedback` - General feedback more than bug reports or feature requests.
-* `help-wanted` - The SetGoalsToday core team would appreciate help from the community in resolving these issues.
-* `beginner` - Less complex issues which would be good first issues to work on for users who want to contribute to SetGoalsToday.
-* `more-information-needed` - More information needs to be collected about these problems or feature requests (e.g. steps to reproduce).
-* `needs-reproduction` - Likely bugs, but haven't been reliably reproduced.
-* `blocked` - Issues blocked on other issues.
-* `duplicate` - Issues which are duplicates of other issues, i.e. they have been reported before.
-* `wontfix` - The SetGoalsToday core team has decided not to fix these issues for now, either because they're working as intended or for some other reason.
-* `invalid` - Issues which aren't valid (e.g. user errors).
+### Manual Testing
 
-#### Topic Categories
+Please test your changes across:
 
-* `windows` - Related to SetGoalsToday running on Windows.
-* `linux` - Related to SetGoalsToday running on Linux.
-* `mac` - Related to SetGoalsToday running on macOS.
-* `documentation` - Related to any type of documentation.
-* `performance` - Related to performance.
-* `security` - Related to security.
-* `ui` - Related to visual design.
-* `api` - Related to SetGoalsToday's public APIs.
-* `uncaught-exception` - Issues about uncaught exceptions.
-* `crash` - Reports of SetGoalsToday completely crashing.
-* `auto-updater` - Related to the auto-updater for all platforms.
-* `installer` - Related to the installer for a platform.
+- Different browsers (Chrome, Firefox, Safari, Edge)
+- Different screen sizes (mobile, tablet, desktop)
+- Both light and dark themes
+- With and without JavaScript enabled
 
-## Recognition
+### Automated Testing
 
-Contributors who have made significant contributions to SetGoalsToday will be recognized in our [README](README.md) and on our website.
+We encourage adding tests for new features:
 
-## Questions?
+\`\`\`bash
+# Run tests (when available)
+npm run test
 
-Don't hesitate to ask questions! You can:
+# Run tests in watch mode
+npm run test:watch
+\`\`\`
 
-* Open an issue on [GitHub](https://github.com/kachiluiz5/setgoalstoday/issues)
-* Email us at [support@setgoalstoday.vercel.app](mailto:support@setgoalstoday.vercel.app)
-* Visit our website at [https://setgoalstoday.vercel.app](https://setgoalstoday.vercel.app)
+## 📚 Documentation
 
-Thank you for contributing to SetGoalsToday! 🎯
+### Code Documentation
+
+- Add JSDoc comments for complex functions
+- Include inline comments for complex logic
+- Update type definitions when needed
+
+### User Documentation
+
+- Update README.md for new features
+- Add examples for new functionality
+- Update installation instructions if needed
+
+## 🎨 Design Guidelines
+
+### UI/UX Principles
+
+- **Simplicity**: Keep interfaces clean and intuitive
+- **Consistency**: Follow existing design patterns
+- **Accessibility**: Ensure features work for all users
+- **Performance**: Optimize for speed and efficiency
+
+### Design Resources
+
+- Use [Lucide Icons](https://lucide.dev/) for icons
+- Follow the existing color scheme
+- Maintain consistent spacing and typography
+- Test with screen readers when possible
+
+## 🤝 Community Guidelines
+
+### Communication
+
+- Be respectful and inclusive
+- Provide constructive feedback
+- Help newcomers get started
+- Share knowledge and resources
+
+### Code Reviews
+
+When reviewing code:
+
+- Focus on the code, not the person
+- Provide specific, actionable feedback
+- Acknowledge good practices
+- Suggest improvements kindly
+
+## 📞 Getting Help
+
+### Questions and Support
+
+- **GitHub Discussions**: For general questions and ideas
+- **GitHub Issues**: For bug reports and feature requests
+- **Email**: [kachiluiz@gmail.com](mailto:kachiluiz@gmail.com) for direct contact
+
+### Resources
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [shadcn/ui Documentation](https://ui.shadcn.com/)
+- [TypeScript Documentation](https://www.typescriptlang.org/docs/)
+
+## 🏆 Recognition
+
+Contributors will be recognized in:
+
+- README.md contributors section
+- Release notes for significant contributions
+- Special thanks in project documentation
+
+## 📄 License
+
+By contributing to Daily Goal Tracker, you agree that your contributions will be licensed under the MIT License.
+
+---
+
+Thank you for contributing to Daily Goal Tracker! Your efforts help make this project better for everyone. 🙏
+
+**Questions?** Feel free to reach out at [kachiluiz@gmail.com](mailto:kachiluiz@gmail.com)

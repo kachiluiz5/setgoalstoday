@@ -176,7 +176,8 @@ export function deleteTask(taskId: string): void {
 export function loadApiSettings(): ApiSettings | null {
   if (typeof window === "undefined") return null
   try {
-    const stored = localStorage.getItem(API_SETTINGS_KEY)
+    // Check both possible keys for compatibility
+    const stored = localStorage.getItem(API_SETTINGS_KEY) || localStorage.getItem("apiSettings")
     if (!stored) return null
 
     const settings = JSON.parse(stored)
@@ -190,7 +191,17 @@ export function loadApiSettings(): ApiSettings | null {
       }
     }
 
-    return settings
+    // Validate current format
+    if (settings.apiKey && settings.provider) {
+      return {
+        apiKey: settings.apiKey,
+        provider: settings.provider,
+        model: settings.model,
+        baseUrl: settings.baseUrl,
+      }
+    }
+
+    return null
   } catch (error) {
     console.error("Error loading API settings:", error)
     return null
@@ -201,6 +212,8 @@ export function saveApiSettings(settings: ApiSettings): void {
   if (typeof window === "undefined") return
   try {
     localStorage.setItem(API_SETTINGS_KEY, JSON.stringify(settings))
+    // Also save to legacy key for compatibility
+    localStorage.setItem("apiSettings", JSON.stringify(settings))
   } catch (error) {
     console.error("Error saving API settings:", error)
   }
