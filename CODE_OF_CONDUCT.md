@@ -60,7 +60,7 @@ representative at an online or offline event.
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement at
-conduct@dailygoaltracker.com.
+conduct@setgoalstoday.vercel.app.
 
 All complaints will be reviewed and investigated promptly and fairly.
 
@@ -131,8 +131,8 @@ https://www.contributor-covenant.org/translations.
 ## Contact
 
 If you have questions about this Code of Conduct, please contact us at:
-- Email: conduct@dailygoaltracker.com
-- GitHub Issues: [Open an issue](https://github.com/yourusername/daily-goal-tracker/issues)
+- Email: conduct@setgoalstoday.vercel.app
+- GitHub Issues: [Open an issue](https://github.com/kachiluiz5/setgoalstoday/issues)
 
 ## Changes
 

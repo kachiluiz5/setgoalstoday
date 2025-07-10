@@ -1,7 +1,7 @@
-# Daily Goal Tracker - Open Source Goal Achievement Platform
+# SetGoalsToday - Open Source Goal Achievement Platform
 
 <div align="center">
-  <img src="public/placeholder-logo.png" alt="Daily Goal Tracker Logo" width="120" height="120">
+  <img src="public/placeholder-logo.png" alt="SetGoalsToday Logo" width="120" height="120">
   
   <h3>Transform your dreams into achievable milestones with AI-powered goal tracking</h3>
   
@@ -13,7 +13,7 @@
 
 ## 🌟 Overview
 
-Daily Goal Tracker is a comprehensive, open-source goal management platform that combines the power of artificial intelligence with intuitive design to help users achieve their personal and professional objectives. Built with modern web technologies, it offers a seamless experience for setting, tracking, and accomplishing goals.
+SetGoalsToday is a comprehensive, open-source goal management platform that combines the power of artificial intelligence with intuitive design to help users achieve their personal and professional objectives. Built with modern web technologies, it offers a seamless experience for setting, tracking, and accomplishing goals.
 
 ## 🛠️ Complete Technology Stack
 
@@ -222,8 +222,8 @@ interface DailyTask {
 
 1. **Clone the repository**
    \`\`\`bash
-   git clone https://github.com/yourusername/daily-goal-tracker.git
-   cd daily-goal-tracker
+   git clone https://github.com/kachiluiz5/setgoalstoday.git
+   cd setgoalstoday
    \`\`\`
 
 2. **Install dependencies**
@@ -235,20 +235,7 @@ interface DailyTask {
    pnpm install
    \`\`\`
 
-3. **Set up environment variables**
-   \`\`\`bash
-   cp .env.example .env.local
-   \`\`\`
-   
-   Add your AI API keys to `.env.local`:
-   \`\`\`env
-   # Optional: Add your preferred AI API key
-   OPENAI_API_KEY=your_openai_key_here
-   ANTHROPIC_API_KEY=your_anthropic_key_here
-   GEMINI_API_KEY=your_gemini_key_here
-   \`\`\`
-
-4. **Start the development server**
+3. **Start the development server**
    \`\`\`bash
    npm run dev
    # or
@@ -257,13 +244,13 @@ interface DailyTask {
    pnpm dev
    \`\`\`
 
-5. **Open your browser**
+4. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
 ## 📁 Project Structure
 
 \`\`\`
-daily-goal-tracker/
+setgoalstoday/
 ├── app/                    # Next.js App Router pages
 │   ├── dashboard/         # Main dashboard
 │   ├── goals/            # Goal management pages
@@ -375,10 +362,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support & Community
 
-- 🐛 **Issues**: [GitHub Issues](https://github.com/yourusername/daily-goal-tracker/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/yourusername/daily-goal-tracker/discussions)
-- 📧 **Email**: support@dailygoaltracker.com
-- 🐦 **Twitter**: [@DailyGoalTracker](https://twitter.com/DailyGoalTracker)
+- 🐛 **Issues**: [GitHub Issues](https://github.com/kachiluiz5/setgoalstoday/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/kachiluiz5/setgoalstoday/discussions)
+- 📧 **Email**: support@setgoalstoday.vercel.app
+- 🌐 **Website**: [https://setgoalstoday.vercel.app](https://setgoalstoday.vercel.app)
 
 ## 🗺️ Roadmap
 
@@ -407,10 +394,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 <div align="center">
-  <p>Made with ❤️ by kachiluiz@gmail.com</p>
+  <p>Made with ❤️ by <a href="https://github.com/kachiluiz5">Kachi Luiz</a></p>
   <p>
-    <a href="https://github.com/yourusername/daily-goal-tracker">⭐ Star us on GitHub</a> •
-    <a href="https://github.com/yourusername/daily-goal-tracker/issues">🐛 Report Bug</a> •
-    <a href="https://github.com/yourusername/daily-goal-tracker/discussions">💬 Request Feature</a>
+    <a href="https://github.com/kachiluiz5/setgoalstoday">⭐ Star us on GitHub</a> •
+    <a href="https://github.com/kachiluiz5/setgoalstoday/issues">🐛 Report Bug</a> •
+    <a href="https://github.com/kachiluiz5/setgoalstoday/discussions">💬 Request Feature</a>
   </p>
 </div>
