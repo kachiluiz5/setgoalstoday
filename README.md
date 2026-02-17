@@ -188,3 +188,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 
 *Transform your goals into achievements with AI-powered guidance and beautiful, intuitive design.*
+<img width="1117" height="582" alt="image" src="https://github.com/user-attachments/assets/9c453851-03e1-4170-93bd-cd6a4dc66099" />
+<img width="1166" height="595" alt="image" src="https://github.com/user-attachments/assets/568cef6e-13ee-4e6a-98ff-417b45ca56cc" />
+
+
