@@ -40,11 +40,12 @@ export function NotificationSettings() {
   // Keep settings (times/frequency) editable but remove the explicit enable toggle from settings.
 
   const handleAddTime = () => {
-    if (!newTime || schedule.times.includes(newTime)) return
+    const times = schedule?.times || []
+    if (!newTime || times.includes(newTime)) return
 
     const updatedSchedule = {
       ...schedule,
-      times: [...schedule.times, newTime].sort(),
+      times: [...times, newTime].sort(),
     }
     setSchedule(updatedSchedule)
     saveNotificationSchedule(updatedSchedule)
@@ -111,7 +112,7 @@ export function NotificationSettings() {
           {/* Frequency Selection */}
           <div className="space-y-2">
             <Label className="text-sm font-medium">Frequency</Label>
-            <Select value={schedule.frequency} onValueChange={handleFrequencyChange}>
+            <Select value={schedule.frequency || "daily"} onValueChange={handleFrequencyChange}>
               <SelectTrigger className="text-sm">
                 <SelectValue />
               </SelectTrigger>

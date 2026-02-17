@@ -79,48 +79,54 @@ Return ONLY a valid JSON array (no markdown) in this format:
   }
 ]`
 
-  let response: Response
+  try {
+    let response: Response
 
-  if (provider === "openai") {
-    response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: apiSettings.model || "gpt-3.5-turbo",
-        messages: [{ role: "user", content: prompt }],
-        temperature: 0.7,
-      }),
-    })
-  } else {
-    // Gemini
-    response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`,
-      {
+    if (provider === "openai") {
+      response = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`,
+        },
         body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.7, maxOutputTokens: 2048 },
+          model: apiSettings.model || "gpt-3.5-turbo",
+          messages: [{ role: "user", content: prompt }],
+          temperature: 0.7,
         }),
-      },
-    )
-  }
+      })
+    } else {
+      // Gemini
+      response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: { temperature: 0.7, maxOutputTokens: 2048 },
+          }),
+        },
+      )
+    }
 
-  if (!response.ok) {
-    const text = await response.text()
-    throw new Error(`API request failed (${response.status}): ${text}`)
-  }
+    if (!response.ok) {
+      const text = await response.text()
+      console.warn(`AI request failed (${response.status}): ${text}`)
+      // On provider errors like 503 return a small local fallback instead of throwing
+      return createFallbackTasks(goals)
+    }
 
-  const data = await response.json()
-  const rawContent =
-    provider === "openai"
-      ? data.choices?.[0]?.message?.content || ""
-      : data.candidates?.[0]?.content?.parts?.[0]?.text || ""
+    const data = await response.json()
+    const rawContent =
+      provider === "openai"
+        ? data.choices?.[0]?.message?.content || ""
+        : data.candidates?.[0]?.content?.parts?.[0]?.text || ""
 
-  if (!rawContent) throw new Error("AI returned an empty response.")
+    if (!rawContent) {
+      console.warn("AI returned an empty response.")
+      return createFallbackTasks(goals)
+    }
 
   // Remove possible \`\`\`json fences and extract array
   const cleaned = rawContent
@@ -136,7 +142,8 @@ Return ONLY a valid JSON array (no markdown) in this format:
     // Fallback to regex array extraction
     const arrMatch = cleaned.match(/\[[\s\S]*\]/)
     if (!arrMatch) {
-      throw new Error("Could not find a JSON array in AI response.")
+      console.warn("Could not find a JSON array in AI response.")
+      return createFallbackTasks(goals)
     }
     tasksArr = JSON.parse(arrMatch[0])
   }
@@ -158,4 +165,48 @@ Return ONLY a valid JSON array (no markdown) in this format:
     createdAt: new Date().toISOString(),
     aiInsight: t.aiInsight || "",
   })) as DailyTask[]
+  } catch (error) {
+    console.warn("Error during AI task generation:", error)
+    return createFallbackTasks(goals)
+  }
+}
+
+function createFallbackTasks(goals: any[]): DailyTask[] {
+  const tasks: DailyTask[] = []
+
+  // Create up to 3 simple fallback tasks focused on highest-priority goals
+  const selectedGoals = goals.slice(0, 3)
+  selectedGoals.forEach((g, idx) => {
+    tasks.push({
+      id: crypto.randomUUID(),
+      title: `Work on: ${g.title}`,
+      description: g.description || `Tackle a chunk of "${g.title}" today.`,
+      goalId: g.id || "",
+      goalTitle: g.title || "",
+      priority: idx === 0 ? "high" : "medium",
+      category: "creation",
+      estimatedTime: 30,
+      completed: false,
+      createdAt: new Date().toISOString(),
+      aiInsight: "Fallback task generated locally due to AI service unavailability",
+    })
+  })
+
+  if (tasks.length === 0) {
+    tasks.push({
+      id: crypto.randomUUID(),
+      title: "Quick Win",
+      description: "Pick a small, meaningful task to make forward progress today.",
+      goalId: "",
+      goalTitle: "General",
+      priority: "medium",
+      category: "creation",
+      estimatedTime: 20,
+      completed: false,
+      createdAt: new Date().toISOString(),
+      aiInsight: "Fallback task",
+    })
+  }
+
+  return tasks
 }
