@@ -130,7 +130,7 @@ Guidelines:
         })
       } else if (apiSettings.provider === "gemini") {
         response = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiSettings.apiKey}`,
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiSettings.apiKey}`,
           {
             method: "POST",
             headers: {

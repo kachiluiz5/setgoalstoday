@@ -36,32 +36,8 @@ export function NotificationSettings() {
     }
   }, [])
 
-  const handleToggleNotifications = async (enabled: boolean) => {
-    if (enabled && permissionStatus !== "granted") {
-      const permission = await requestNotificationPermission()
-      setPermissionStatus(permission)
-
-      if (permission !== "granted") {
-        toast({
-          title: "Permission Required",
-          description: "Please allow notifications in your browser settings to enable reminders.",
-          variant: "destructive",
-        })
-        return
-      }
-    }
-
-    const updatedSchedule = { ...schedule, enabled }
-    setSchedule(updatedSchedule)
-    saveNotificationSchedule(updatedSchedule)
-
-    toast({
-      title: enabled ? "Notifications Enabled" : "Notifications Disabled",
-      description: enabled
-        ? "You'll receive goal reminders at your scheduled times."
-        : "Goal reminders have been turned off.",
-    })
-  }
+  // Note: enabling/disabling notifications is managed elsewhere (dashboard prompt).
+  // Keep settings (times/frequency) editable but remove the explicit enable toggle from settings.
 
   const handleAddTime = () => {
     if (!newTime || schedule.times.includes(newTime)) return
@@ -123,94 +99,75 @@ export function NotificationSettings() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* Enable/Disable Toggle */}
-          <div className="flex items-center justify-between">
-            <div className="space-y-1">
-              <Label className="text-sm font-medium">Enable Notifications</Label>
-              <p className="text-xs text-muted-foreground">Receive reminders to work on your goals</p>
+          {/* Permission Status (informational) */}
+          {permissionStatus !== "granted" && (
+            <div className="p-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/30 rounded-lg">
+              <p className="text-sm text-amber-800 dark:text-amber-200">
+                <strong>Permission needed:</strong> Please allow notifications in your browser to receive reminders.
+              </p>
             </div>
-            <Switch checked={schedule.enabled} onCheckedChange={handleToggleNotifications} />
+          )}
+
+          {/* Frequency Selection */}
+          <div className="space-y-2">
+            <Label className="text-sm font-medium">Frequency</Label>
+            <Select value={schedule.frequency} onValueChange={handleFrequencyChange}>
+              <SelectTrigger className="text-sm">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="daily" className="text-sm">
+                  Daily
+                </SelectItem>
+                <SelectItem value="weekly" className="text-sm">
+                  Weekly
+                </SelectItem>
+                <SelectItem value="custom" className="text-sm">
+                  Custom
+                </SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
-          {schedule.enabled && (
-            <>
-              {/* Permission Status */}
-              {permissionStatus !== "granted" && (
-                <div className="p-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/30 rounded-lg">
-                  <p className="text-sm text-amber-800 dark:text-amber-200">
-                    <strong>Permission needed:</strong> Please allow notifications in your browser to receive reminders.
-                  </p>
-                </div>
-              )}
+          {/* Notification Times */}
+          <div className="space-y-3">
+            <Label className="text-sm font-medium">Reminder Times</Label>
 
-              {/* Frequency Selection */}
-              <div className="space-y-2">
-                <Label className="text-sm font-medium">Frequency</Label>
-                <Select value={schedule.frequency} onValueChange={handleFrequencyChange}>
-                  <SelectTrigger className="text-sm">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="daily" className="text-sm">
-                      Daily
-                    </SelectItem>
-                    <SelectItem value="weekly" className="text-sm">
-                      Weekly
-                    </SelectItem>
-                    <SelectItem value="custom" className="text-sm">
-                      Custom
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+            {/* Current Times */}
+            <div className="flex flex-wrap gap-2">
+              {(schedule.times || []).map((time) => (
+                <Badge key={time} variant="secondary" className="gap-1 text-xs">
+                  <Clock className="h-3 w-3" />
+                  {time}
+                  <button onClick={() => handleRemoveTime(time)} className="ml-1 hover:text-destructive">
+                    <X className="h-3 w-3" />
+                  </button>
+                </Badge>
+              ))}
+            </div>
 
-              {/* Notification Times */}
-              <div className="space-y-3">
-                <Label className="text-sm font-medium">Reminder Times</Label>
+            {/* Add New Time */}
+            <div className="flex gap-2">
+              <Input
+                type="time"
+                value={newTime}
+                onChange={(e) => setNewTime(e.target.value)}
+                className="flex-1 text-sm"
+              />
+              <Button onClick={handleAddTime} disabled={!newTime || (schedule.times || []).includes(newTime)} size="sm" className="gap-1 text-sm">
+                <Plus className="h-3 w-3" />
+                Add
+              </Button>
+            </div>
+          </div>
 
-                {/* Current Times */}
-                <div className="flex flex-wrap gap-2">
-                  {schedule.times.map((time) => (
-                    <Badge key={time} variant="secondary" className="gap-1 text-xs">
-                      <Clock className="h-3 w-3" />
-                      {time}
-                      <button onClick={() => handleRemoveTime(time)} className="ml-1 hover:text-destructive">
-                        <X className="h-3 w-3" />
-                      </button>
-                    </Badge>
-                  ))}
-                </div>
-
-                {/* Add New Time */}
-                <div className="flex gap-2">
-                  <Input
-                    type="time"
-                    value={newTime}
-                    onChange={(e) => setNewTime(e.target.value)}
-                    className="flex-1 text-sm"
-                  />
-                  <Button
-                    onClick={handleAddTime}
-                    disabled={!newTime || schedule.times.includes(newTime)}
-                    size="sm"
-                    className="gap-1 text-sm"
-                  >
-                    <Plus className="h-3 w-3" />
-                    Add
-                  </Button>
-                </div>
-              </div>
-
-              {/* Preview */}
-              <div className="p-3 bg-muted/50 rounded-lg">
-                <p className="text-xs text-muted-foreground mb-1">Preview:</p>
-                <p className="text-sm">
-                  You'll receive {schedule.frequency} reminders at{" "}
-                  {schedule.times.length > 0 ? schedule.times.join(", ") : "no times set"}
-                </p>
-              </div>
-            </>
-          )}
+          {/* Preview */}
+          <div className="p-3 bg-muted/50 rounded-lg">
+            <p className="text-xs text-muted-foreground mb-1">Preview:</p>
+            <p className="text-sm">
+              You'll receive {schedule.frequency} reminders at {(schedule.times || []).length > 0 ? (schedule.times || []).join(", ") : "no times set"}
+            </p>
+          </div>
         </CardContent>
       </Card>
     </div>

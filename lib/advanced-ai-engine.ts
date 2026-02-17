@@ -1,6 +1,7 @@
 "use server"
 
-import type { RoadmapStep, ApiSettings } from "@/types/goal"
+import type { RoadmapStep } from "@/types/goal"
+import type { ApiSettings } from "@/lib/storage"
 
 export async function generateAdvancedRoadmap(
   goalTitle: string,
@@ -52,16 +53,17 @@ Do not include any other text, explanations, or formatting. Just the JSON array.
         }),
       })
 
-      if (!apiResponse.ok) {
-        const errorText = await apiResponse.text()
-        throw new Error(`OpenAI API error: ${apiResponse.status} - ${errorText}`)
+        if (!apiResponse.ok) {
+          const errorText = await apiResponse.text()
+          console.warn(`OpenAI API error: ${apiResponse.status} - ${errorText}`)
+          throw new Error(`OpenAI API error: ${apiResponse.status} - ${errorText}`)
       }
 
       const data = await apiResponse.json()
       response = data.choices[0]?.message?.content || ""
     } else if (apiSettings.geminiKey) {
       const apiResponse = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiSettings.geminiKey}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiSettings.geminiKey}`,
         {
           method: "POST",
           headers: {
@@ -77,9 +79,10 @@ Do not include any other text, explanations, or formatting. Just the JSON array.
         },
       )
 
-      if (!apiResponse.ok) {
-        const errorText = await apiResponse.text()
-        throw new Error(`Gemini API error: ${apiResponse.status} - ${errorText}`)
+        if (!apiResponse.ok) {
+          const errorText = await apiResponse.text()
+          console.warn(`Gemini API error: ${apiResponse.status} - ${errorText}`)
+          throw new Error(`Gemini API error: ${apiResponse.status} - ${errorText}`)
       }
 
       const data = await apiResponse.json()
@@ -99,9 +102,10 @@ Do not include any other text, explanations, or formatting. Just the JSON array.
         }),
       })
 
-      if (!apiResponse.ok) {
-        const errorText = await apiResponse.text()
-        throw new Error(`Anthropic API error: ${apiResponse.status} - ${errorText}`)
+        if (!apiResponse.ok) {
+          const errorText = await apiResponse.text()
+          console.warn(`Anthropic API error: ${apiResponse.status} - ${errorText}`)
+          throw new Error(`Anthropic API error: ${apiResponse.status} - ${errorText}`)
       }
 
       const data = await apiResponse.json()
@@ -159,7 +163,36 @@ Do not include any other text, explanations, or formatting. Just the JSON array.
 
     return roadmap
   } catch (error) {
-    console.error("Advanced AI roadmap generation failed:", error)
-    throw error
+      console.warn("Advanced AI roadmap generation failed:", error)
+
+    // Fallback: return a minimal, safe roadmap so goal creation can continue
+    const fallback: RoadmapStep[] = [
+      {
+        id: crypto.randomUUID(),
+        title: "Define success criteria",
+        step: "Define success criteria",
+        description: `Clarify what success looks like for '${goalTitle}'. Include measurable outcomes and a target timeline.`,
+        completed: false,
+        notes: "",
+      },
+      {
+        id: crypto.randomUUID(),
+        title: "Break down into tasks",
+        step: "Break down into tasks",
+        description: "Split the goal into smaller, time-bound tasks that build on each other.",
+        completed: false,
+        notes: "",
+      },
+      {
+        id: crypto.randomUUID(),
+        title: "Start and iterate",
+        step: "Start and iterate",
+        description: "Begin with the first task, review progress weekly, and adjust the plan as needed.",
+        completed: false,
+        notes: "",
+      },
+    ]
+
+    return fallback
   }
 }

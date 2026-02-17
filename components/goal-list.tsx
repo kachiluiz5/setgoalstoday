@@ -40,7 +40,7 @@ export function GoalList({ goals, onUpdateGoal, onDeleteGoal }: GoalListProps) {
       case "active":
         return goals.filter((goal) => {
           const goalMonth = Number.parseInt(goal.month)
-          const goalYear = Number.parseInt(goal.year)
+          const goalYear = Number(goal.year)
           return (
             goal.progress < 100 && (goalYear > currentYear || (goalYear === currentYear && goalMonth >= currentMonth))
           )
@@ -50,7 +50,7 @@ export function GoalList({ goals, onUpdateGoal, onDeleteGoal }: GoalListProps) {
       case "overdue":
         return goals.filter((goal) => {
           const goalMonth = Number.parseInt(goal.month)
-          const goalYear = Number.parseInt(goal.year)
+          const goalYear = Number(goal.year)
           return (
             goal.progress < 100 && (goalYear < currentYear || (goalYear === currentYear && goalMonth < currentMonth))
           )
@@ -67,7 +67,7 @@ export function GoalList({ goals, onUpdateGoal, onDeleteGoal }: GoalListProps) {
 
     const active = goals.filter((goal) => {
       const goalMonth = Number.parseInt(goal.month)
-      const goalYear = Number.parseInt(goal.year)
+      const goalYear = Number(goal.year)
       return goal.progress < 100 && (goalYear > currentYear || (goalYear === currentYear && goalMonth >= currentMonth))
     }).length
 

@@ -142,7 +142,7 @@ export function ShareGoalModal({ goal, onClose }: ShareGoalModalProps) {
               {/* Completely redesigned roadmap steps with proper strikethrough */}
               <div className="space-y-3 pt-2">
                 <p className="text-sm font-semibold mb-2">Roadmap:</p>
-                {goal.roadmap.slice(0, 5).map((step, index) => (
+                {(goal.roadmap || []).slice(0, 5).map((step, index) => (
                   <div key={step.id} className="flex items-center gap-3">
                     <div
                       className={`min-w-7 h-7 rounded-full flex items-center justify-center ${
@@ -171,8 +171,8 @@ export function ShareGoalModal({ goal, onClose }: ShareGoalModalProps) {
                     </div>
                   </div>
                 ))}
-                {goal.roadmap.length > 5 && (
-                  <p className="text-xs text-white/50 pl-10">+{goal.roadmap.length - 5} more steps</p>
+                {(goal.roadmap || []).length > 5 && (
+                  <p className="text-xs text-white/50 pl-10">+{(goal.roadmap || []).length - 5} more steps</p>
                 )}
               </div>
 

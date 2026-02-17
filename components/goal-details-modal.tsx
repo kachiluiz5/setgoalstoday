@@ -37,12 +37,12 @@ export function GoalDetailsModal({ goal, open, onClose, onUpdate }: GoalDetailsM
 
   if (!goal) return null
 
-  const completedSteps = goal.roadmap.filter((step) => step.completed).length
-  const totalSteps = goal.roadmap.length
+  const completedSteps = (goal.roadmap || []).filter((step) => step.completed).length
+  const totalSteps = (goal.roadmap || []).length
   const progressPercentage = totalSteps > 0 ? Math.round((completedSteps / totalSteps) * 100) : 0
 
   const handleStepToggle = (stepId: string, completed: boolean) => {
-    const updatedRoadmap = goal.roadmap.map((step) => (step.id === stepId ? { ...step, completed } : step))
+    const updatedRoadmap = (goal.roadmap || []).map((step) => (step.id === stepId ? { ...step, completed } : step))
 
     const completedSteps = updatedRoadmap.filter((step) => step.completed).length
     const progress = Math.round((completedSteps / updatedRoadmap.length) * 100)
@@ -62,6 +62,7 @@ export function GoalDetailsModal({ goal, open, onClose, onUpdate }: GoalDetailsM
 
     const newStep: RoadmapStep = {
       id: Date.now().toString(),
+      title: newStepTitle.trim(),
       step: newStepTitle.trim(),
       description: newStepDescription.trim(),
       completed: false,
@@ -69,7 +70,7 @@ export function GoalDetailsModal({ goal, open, onClose, onUpdate }: GoalDetailsM
 
     const updatedGoal = {
       ...goal,
-      roadmap: [...goal.roadmap, newStep],
+      roadmap: [...(goal.roadmap || []), newStep],
       updatedAt: new Date().toISOString(),
     }
 
@@ -84,7 +85,7 @@ export function GoalDetailsModal({ goal, open, onClose, onUpdate }: GoalDetailsM
   }
 
   const handleDeleteStep = (stepId: string) => {
-    const updatedRoadmap = goal.roadmap.filter((step) => step.id !== stepId)
+    const updatedRoadmap = (goal.roadmap || []).filter((step) => step.id !== stepId)
     const updatedGoal = {
       ...goal,
       roadmap: updatedRoadmap,
@@ -99,7 +100,7 @@ export function GoalDetailsModal({ goal, open, onClose, onUpdate }: GoalDetailsM
   }
 
   const handleEditStep = (stepId: string) => {
-    const step = goal.roadmap.find((step) => step.id === stepId)
+    const step = (goal.roadmap || []).find((step) => step.id === stepId)
     if (step) {
       setEditStepTitle(step.step || step.title || "")
       setEditStepDescription(step.description || "")
@@ -108,7 +109,7 @@ export function GoalDetailsModal({ goal, open, onClose, onUpdate }: GoalDetailsM
   }
 
   const handleSaveEdit = (stepId: string) => {
-    const updatedRoadmap = goal.roadmap.map((step) =>
+    const updatedRoadmap = (goal.roadmap || []).map((step) =>
       step.id === stepId
         ? {
             ...step,
@@ -144,7 +145,7 @@ export function GoalDetailsModal({ goal, open, onClose, onUpdate }: GoalDetailsM
   const handleDragEnd = (result: DropResult) => {
     if (!result.destination) return
 
-    const items = Array.from(goal.roadmap)
+    const items = Array.from(goal.roadmap || [])
     const [reorderedItem] = items.splice(result.source.index, 1)
     items.splice(result.destination.index, 0, reorderedItem)
 
@@ -242,7 +243,7 @@ export function GoalDetailsModal({ goal, open, onClose, onUpdate }: GoalDetailsM
                   <Droppable droppableId="roadmap">
                     {(provided) => (
                       <div {...provided.droppableProps} ref={provided.innerRef} className="space-y-3">
-                        {goal.roadmap.map((step, index) => (
+                        {(goal.roadmap || []).map((step, index) => (
                           <Draggable key={step.id} draggableId={step.id} index={index}>
                             {(provided, snapshot) => (
                               <div

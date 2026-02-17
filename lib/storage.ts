@@ -187,7 +187,7 @@ export function loadApiSettings(): ApiSettings | null {
       return {
         apiKey: settings.geminiKey,
         provider: "gemini",
-        model: settings.model || "gemini-1.5-flash",
+        model: settings.model || "gemini-3-flash-preview",
       }
     }
 

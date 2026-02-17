@@ -26,10 +26,10 @@ export function GoalCard({ goal, onUpdate, onDelete }: GoalCardProps) {
   const [isChatModalOpen, setIsChatModalOpen] = useState(false)
 
   const handleStepToggle = (stepId: string, completed: boolean) => {
-    const updatedRoadmap = goal.roadmap.map((step) => (step.id === stepId ? { ...step, completed } : step))
+    const updatedRoadmap = (goal.roadmap || []).map((step) => (step.id === stepId ? { ...step, completed } : step))
 
     const completedSteps = updatedRoadmap.filter((step) => step.completed).length
-    const progress = Math.round((completedSteps / updatedRoadmap.length) * 100)
+    const progress = updatedRoadmap.length > 0 ? Math.round((completedSteps / updatedRoadmap.length) * 100) : 0
 
     const updatedGoal = {
       ...goal,
@@ -46,8 +46,8 @@ export function GoalCard({ goal, onUpdate, onDelete }: GoalCardProps) {
     setIsDeleteModalOpen(false)
   }
 
-  const completedSteps = goal.roadmap.filter((step) => step.completed).length
-  const totalSteps = goal.roadmap.length
+  const completedSteps = (goal.roadmap || []).filter((step) => step.completed).length
+  const totalSteps = (goal.roadmap || []).length
   const progressColor =
     goal.progress >= 75
       ? "bg-green-500"
@@ -130,7 +130,7 @@ export function GoalCard({ goal, onUpdate, onDelete }: GoalCardProps) {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-muted-foreground">Recent Steps</span>
-              {goal.roadmap.length > 3 && (
+              {(goal.roadmap || []).length > 3 && (
                 <Button
                   variant="ghost"
                   size="sm"
@@ -142,7 +142,7 @@ export function GoalCard({ goal, onUpdate, onDelete }: GoalCardProps) {
               )}
             </div>
             <div className="space-y-2">
-              {goal.roadmap.slice(0, 3).map((step) => (
+              {(goal.roadmap || []).slice(0, 3).map((step) => (
                 <div key={step.id} className="flex items-start gap-3 group/step">
                   <Checkbox
                     id={step.id}

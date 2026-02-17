@@ -67,7 +67,7 @@ export async function generateConversationalResponse(
   if (provider === "gemini") {
     const contextPrompt = buildSystemPrompt(goal)
     const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiSettings.apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiSettings.apiKey}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

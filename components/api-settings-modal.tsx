@@ -62,8 +62,8 @@ export function ApiSettingsModal({ open, onClose, onSave }: ApiSettingsModalProp
       const settings: ApiSettings = {
         provider,
         apiKey: apiKey.trim(),
-        model:
-          provider === "gemini" ? "gemini-1.5-flash" : provider === "openai" ? "gpt-4" : "claude-3-sonnet-20240229",
+          model:
+            provider === "gemini" ? "gemini-3-flash-preview" : provider === "openai" ? "gpt-4" : "claude-3-sonnet-20240229",
       }
 
       // Save to both possible keys for compatibility

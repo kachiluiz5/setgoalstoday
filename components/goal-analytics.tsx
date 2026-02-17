@@ -10,8 +10,8 @@ interface GoalAnalyticsProps {
 
 export function GoalAnalytics({ goal }: GoalAnalyticsProps) {
   // Calculate completed vs remaining steps
-  const completedSteps = goal.roadmap.filter((step) => step.completed).length
-  const remainingSteps = goal.roadmap.length - completedSteps
+  const completedSteps = (goal.roadmap || []).filter((step) => step.completed).length
+  const remainingSteps = (goal.roadmap || []).length - completedSteps
 
   const pieData = [
     { name: "Completed", value: completedSteps, color: "hsl(var(--chart-2))" },
@@ -23,8 +23,8 @@ export function GoalAnalytics({ goal }: GoalAnalyticsProps) {
       <Card>
         <CardHeader>
           <CardTitle>Goal Progress</CardTitle>
-          <CardDescription>
-            {completedSteps} of {goal.roadmap.length} steps completed ({goal.progress}%)
+            <CardDescription>
+            {completedSteps} of {(goal.roadmap || []).length} steps completed ({goal.progress}%)
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -46,7 +46,7 @@ export function GoalAnalytics({ goal }: GoalAnalyticsProps) {
               <div key={index} className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }}></div>
                 <span className="text-xs">
-                  {entry.name}: {Math.round((entry.value / goal.roadmap.length) * 100)}%
+                  {entry.name}: {Math.round(((entry.value || 0) / ((goal.roadmap || []).length || 1)) * 100)}%
                 </span>
               </div>
             ))}

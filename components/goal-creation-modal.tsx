@@ -38,7 +38,7 @@ export function GoalCreationModal({ isOpen, onClose, onGoalCreated }: GoalCreati
 
     // Check if API is configured
     const apiSettings = loadApiSettings()
-    if (!apiSettings?.apiKey && !apiSettings?.geminiKey) {
+    if (!apiSettings?.apiKey) {
       toast({
         title: "API Configuration Required",
         description: "Please configure your AI API key to generate goal roadmaps.",
@@ -51,14 +51,28 @@ export function GoalCreationModal({ isOpen, onClose, onGoalCreated }: GoalCreati
     setIsGenerating(true)
 
     try {
-      const roadmap = await generateGoalRoadmap(title, description)
+      let roadmap
+      try {
+        roadmap = await generateGoalRoadmap(title, description)
+      } catch (aiError) {
+        console.warn("AI generation failed, using fallback roadmap:", aiError)
+        toast({
+          title: "AI unavailable",
+          description: "Using a basic fallback roadmap because AI generation failed.",
+        })
+        roadmap = [
+          { id: crypto.randomUUID(), title: "Define success criteria", step: "Define success criteria", description: `Clarify what success looks like for '${title}'.`, completed: false, notes: "" },
+          { id: crypto.randomUUID(), title: "Break down into tasks", step: "Break down into tasks", description: "Split the goal into smaller, time-bound tasks.", completed: false, notes: "" },
+          { id: crypto.randomUUID(), title: "Start and iterate", step: "Start and iterate", description: "Begin with the first task, review progress weekly, and adjust the plan.", completed: false, notes: "" },
+        ]
+      }
 
       const newGoal: Goal = {
         id: crypto.randomUUID(),
         title: title.trim(),
         description: description.trim(),
         month,
-        year,
+        year: Number(year),
         category: category || "Personal",
         roadmap,
         progress: 0,
