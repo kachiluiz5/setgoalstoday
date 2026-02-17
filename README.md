@@ -2,39 +2,39 @@
 
 A modern, AI-powered goal tracking application built with Next.js 14, featuring intelligent task generation, progress analytics, and a beautiful user interface.
 
-## ✨ Features
+##  Features
 
-### 🎯 Smart Goal Management
+###  Smart Goal Management
 - **AI-Powered Goal Creation**: Generate detailed roadmaps with actionable steps
 - **Progress Tracking**: Visual progress indicators and completion analytics
 - **Goal Categories**: Organize goals by type (Personal, Professional, Health, etc.)
 - **Target Dates**: Set and track deadlines with calendar integration
 
-### 🤖 AI-Powered Features
+###  AI-Powered Features
 - **Daily Task Generation**: AI creates personalized daily tasks based on your goals
 - **Goal Coach**: Interactive AI assistant for motivation and guidance
 - **Smart Insights**: AI-powered analytics and recommendations
 - **Multiple AI Providers**: Support for OpenAI, Google Gemini, and Anthropic Claude
 
-### 📱 Modern User Experience
+###  Modern User Experience
 - **Responsive Design**: Works perfectly on desktop, tablet, and mobile
 - **Dark/Light Mode**: Automatic theme switching with system preference
 - **Progressive Web App**: Install as a native app on any device
 - **Offline Support**: Continue working even without internet connection
 
-### 📊 Analytics & Insights
+###  Analytics & Insights
 - **Progress Visualization**: Beautiful charts and graphs
 - **Completion Rates**: Track your success patterns
 - **Time Analytics**: Understand your productivity patterns
 - **Goal Insights**: AI-powered recommendations for improvement
 
-### 📝 Note-Taking System
+###  Note-Taking System
 - **Rich Text Editor**: Full-featured note editing with formatting
 - **Goal Integration**: Link notes directly to specific goals
 - **Search & Filter**: Quickly find any note or goal
 - **Export Options**: Export your data in multiple formats
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 - Node.js 18+ 
@@ -81,7 +81,7 @@ The app supports multiple AI providers. Configure your preferred provider in the
    - Get your API key from [Anthropic Console](https://console.anthropic.com/settings/keys)
    - Requires paid account for API access
 
-## 🛠️ Technology Stack
+##  Technology Stack
 
 ### Frontend
 - **Next.js 14** - React framework with App Router
@@ -106,7 +106,7 @@ The app supports multiple AI providers. Configure your preferred provider in the
 - **TypeScript** - Static type checking
 - **Tailwind CSS** - Utility-first styling
 
-## 📁 Project Structure
+##  Project Structure
 
 \`\`\`
 daily-goal-tracker/
@@ -127,7 +127,7 @@ daily-goal-tracker/
 └── public/               # Static assets
 \`\`\`
 
-## 🎨 Customization
+##  Customization
 
 ### Themes
 The app supports both light and dark themes with automatic system detection. You can customize the color scheme by modifying the CSS variables in `app/globals.css`.
@@ -138,7 +138,7 @@ Add support for additional AI providers by extending the AI utility functions in
 ### Components
 All UI components are built with shadcn/ui and can be customized by modifying the component files in `components/ui/`.
 
-## 📱 Progressive Web App
+##  Progressive Web App
 
 The app is configured as a PWA and can be installed on any device:
 
@@ -146,14 +146,14 @@ The app is configured as a PWA and can be installed on any device:
 2. **Mobile**: Use "Add to Home Screen" from your browser menu
 3. **Offline**: Continue using core features without internet connection
 
-## 🔒 Privacy & Security
+##  Privacy & Security
 
 - **Local Data**: All your data stays on your device
 - **API Keys**: Stored securely in browser local storage
 - **No Tracking**: No analytics or tracking scripts
 - **Open Source**: Full transparency with open source code
 
-## 🤝 Contributing
+##  Contributing
 
 We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
@@ -166,17 +166,17 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 5. Push to the branch: `git push origin feature/amazing-feature`
 6. Open a Pull Request
 
-## 📄 License
+##  License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🆘 Support
+##  Support
 
 - **Issues**: Report bugs or request features on [GitHub Issues](https://github.com/yourusername/daily-goal-tracker/issues)
 - **Email**: Contact us at [kachiluiz@gmail.com](mailto:kachiluiz@gmail.com)
 - **Documentation**: Check our [Wiki](https://github.com/yourusername/daily-goal-tracker/wiki) for detailed guides
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - [Next.js](https://nextjs.org/) - The React framework for production
 - [shadcn/ui](https://ui.shadcn.com/) - Beautiful and accessible UI components
@@ -186,6 +186,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Built with ❤️ by the Daily Goal Tracker team**
 
 *Transform your goals into achievements with AI-powered guidance and beautiful, intuitive design.*
